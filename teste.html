@@ -1,105 +1,108 @@
 <html>
-	<body>
-		<div>Digite o texto</div>
-		<input type="text" id="TextoAdd" />
 
-		<input type="button" id="Adiciona" value="Adicionar Texto" />
-		<input type="button" id="Editar" value="Editar Texto" />
+<body>
+	<div> Organizador</div>
 
-		<div id="Container"></div>
+	<div>
+		<div>Digite o produto</div>
+		<input type="text" id="descricaoProduto" />
+		<input type="button" id="AdicionarProduto" value="Adicionar Produto" />
+		<input type="button" id="EditarProduto" value="Editar Produto" />
+	</div>
 
-		<div>
-			<input type="button" class="cor" id="vermelho" value="vermelho" style="background-color:red" />
-			<input type="button" class="cor" id="verde" value="verde" style="background-color:green" />
-			<input type="button" class="cor" id="amarelo" value="amarelo" style="background-color:yellow" />
-			<input type="button" class="cor" id="azul" value="azul" style="background-color:blue" />
-			<input type="button" class="cor" id="branco" value="branco" style="background-color:white" />
-		</div>
+	<div id="Container"></div>
 
-		<script type="text/javascript" src="maga.js"> </script>
-		<script type="text/javascript">
-			//TODO: "cadastro" completo com outros campos
-			
-			var caixaDeTexto = $("#TextoAdd");
-			var botaoAdd = $("#Adiciona");
-			var Container = $("#Container");
-			var botaoEdit = $("#Editar");
-			var cor = $(".cor");
-			var div = $("div");
+	<div>
+		<input type="button" class="cor" id="vermelho" value="vermelho" style="background-color:red" />
+		<input type="button" class="cor" id="verde" value="verde" style="background-color:green" />
+		<input type="button" class="cor" id="amarelo" value="amarelo" style="background-color:yellow" />
+		<input type="button" class="cor" id="azul" value="azul" style="background-color:blue" />
+		<input type="button" class="cor" id="branco" value="branco" style="background-color:white" />
+	</div>
 
-			cor.each(function (item) {
-				item.onclick = applyColor;
-			});
+	<script type="text/javascript" src="maga.js"> </script>
+	<script type="text/javascript">
+		//TODO: "cadastro" completo com outros campos
 
-			botaoEdit.hide();
+		var caixaDeTexto = $("#descricaoProduto");
+		var botaoAdd = $("#AdicionarProduto");
+		var Container = $("#Container");
+		var botaoEdit = $("#EditarProduto");
+		var cor = $(".cor");
+		var div = $("div");
 
-			var valor = $("#TextoAdd").val();
+		cor.each(function (item) {
+			item.onclick = applyColor;
+		});
 
-			botaoAdd.element.onclick = function () {
+		botaoEdit.hide();
 
-				var textoDigitado = caixaDeTexto.val();
+		var valor = $("#descricaoProduto").val();
 
-				// referentes a div
-				var randomIdDiv = `Div${Date.now()}`;
-				var divConteudo = Container.append("div", randomIdDiv);
+		botaoAdd.element.onclick = function () {
 
-				//refente ao parágrafo
-				var paragrafo = divConteudo.append("p", textoDigitado);
-				paragrafo.attr("class", "paragrafo");
-				paragrafo.val(textoDigitado);
+			var textoDigitado = caixaDeTexto.val();
 
-				//referente ao botão editar
-				var randomId = Date.now();
-				var botaoEditar = divConteudo.append("button", randomId);
-				botaoEditar.val("Editar Paragrafo");
+			// referentes a div
+			var randomIdDiv = `Div${Date.now()}`;
+			var divConteudo = Container.append("div", randomIdDiv);
 
-				// Referente ao botão excluir
-				var idBtnExcluir = `${randomId}Excluir`;
-				var botaoExcluir = divConteudo.append("button", idBtnExcluir);
+			//refente ao parágrafo
+			var paragrafo = divConteudo.append("p", textoDigitado);
+			paragrafo.attr("class", "paragrafo");
+			paragrafo.val(textoDigitado);
 
-				botaoExcluir.val("Excluir Paragrafo");
-				botaoExcluir.attr("data-div", randomIdDiv);
+			//referente ao botão editar
+			var randomId = Date.now();
+			var botaoEditar = divConteudo.append("button", randomId);
+			botaoEditar.val("Editar Paragrafo");
 
+			// Referente ao botão excluir
+			var idBtnExcluir = `${randomId}Excluir`;
+			var botaoExcluir = divConteudo.append("button", idBtnExcluir);
 
-				botaoEditar.element.onclick = function () {
-					caixaDeTexto.val(paragrafo.val());
-					var dataParagrafo = paragrafo.attr("id");
-					botaoEdit.attr("data-paragrafo", dataParagrafo);
-					botaoEdit.show();
-					botaoAdd.hide();
-				}
+			botaoExcluir.val("Excluir Paragrafo");
+			botaoExcluir.attr("data-div", randomIdDiv);
 
+			botaoEditar.element.onclick = function () {
+				caixaDeTexto.val(paragrafo.val());
+				var dataParagrafo = paragrafo.attr("id");
+				botaoEdit.attr("data-paragrafo", dataParagrafo);
+				botaoEdit.show();
+				botaoAdd.hide();
+			}
 
-				botaoExcluir.element.onclick = function () {
-					divConteudo.element.remove();
-				};
-
-				caixaDeTexto.element.value = "";
-
+			botaoExcluir.element.onclick = function () {
+				divConteudo.element.remove();
 			};
 
-			botaoEdit.click(
-				function () {
-					var textbox = $("#TextoAdd");
-					var idParagrafo = botaoEdit.attr("data-paragrafo");
-					$(`#${idParagrafo}`).val(textbox.val());
-					botaoEdit.hide();
-					botaoAdd.show();
-				}
-			);
+			caixaDeTexto.element.value = "";
 
-			function applyColor() {
-				var corAtribuida = this.getAttribute("style");
-				console.log(cor);
-				var paragrafos = $(".paragrafo");
+		};
 
-				paragrafos.each(function (item, indice) {
-					var p = $(`#${item.getAttribute("Id")}`);
-	
-					p.val(`${indice} - ${item.innerText}`);
-					p.attr("style", corAtribuida);
-				});
+		botaoEdit.click(
+			function () {
+				var textbox = $("#descricaoProduto");
+				var idParagrafo = botaoEdit.attr("data-paragrafo");
+				$(`#${idParagrafo}`).val(textbox.val());
+				botaoEdit.hide();
+				botaoAdd.show();
 			}
-		</script>
-	</body>
+		);
+
+		function applyColor() {
+			var corAtribuida = this.getAttribute("style");
+			console.log(cor);
+			var paragrafos = $(".paragrafo");
+
+			paragrafos.each(function (item, indice) {
+				var p = $(`#${item.getAttribute("Id")}`);
+
+				p.val(`${indice} - ${item.innerText}`);
+				p.attr("style", corAtribuida);
+			});
+		}
+	</script>
+</body>
+
 </html>
